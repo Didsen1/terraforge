@@ -1,0 +1,17 @@
+.FormWrapper {
+    display: flex;
+    flex-direction: column;
+
+    .FormWrapper__Form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+    .FormWrapper__ButtonWrapper {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+}

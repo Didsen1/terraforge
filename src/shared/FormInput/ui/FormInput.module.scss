@@ -1,0 +1,10 @@
+.FormInput {
+    padding: 10px;
+    height: 24;
+    margin-top: 10px;
+}
+
+.FormInput:focus {
+    border-color: #6e96e3;
+    outline: none;
+}
