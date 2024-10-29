@@ -1,15 +1,14 @@
 import React from 'react';
 import styles from './App.module.scss'
-import HomePage from '../../pages/HomePage';
-import RegisterPage from '../../pages/RegisterPage';
-import Header from '../../widgets/Header/ui';
+import { Outlet } from 'react-router-dom';
+import Header from '../../widgets/Header';
 
 function App() {
   return (
     <div className={styles.App}>
-      <Header/>
+      <Header />
       <main>
-        <RegisterPage/>
+        <Outlet />
       </main>
     </div>
   );

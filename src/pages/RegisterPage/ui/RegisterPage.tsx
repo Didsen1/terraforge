@@ -1,10 +1,10 @@
 import React from "react";
-import FormWrapper from "../../../widgets/FormWrapper";
+import Register from "../../../features/Register";
 import styles from "./RegisterPage.module.scss"
 
 const RegisterPage = () => {
     return (
-        <FormWrapper/>
+        <Register />
     )
 }
 

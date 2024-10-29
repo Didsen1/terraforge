@@ -1,15 +1,13 @@
 import React from "react";
-import useValidation from "../../hooks/useValidation";
 import styles from "./FormInput.module.scss"
 
-const FormInput = ({ type, name, onBlur, onChange, required, minLength }: any) => {
-
+const FormInput = ({ type, register, name }: any) => {
     return (
         <>
-            <input className={styles.FormInput} minLength={minLength} type={type} name={name} onBlur={onBlur} onChange={onChange} required={required}></input>
-            {/* <span className="sign__error">{errors.name}</span> */}
+            <input className={styles.FormInput} type={type} {...register(name)} />
         </>
-    )
+    );
 }
+
 
 export default FormInput;

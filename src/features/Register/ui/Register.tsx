@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import FormInput from "../../../shared/FormInput";
+import React from "react";
+import Button from "../../../shared/Button";
 import FormLabel from "../../../shared/FormLabel";
+import { useForm } from "react-hook-form";
+import LinkElement from "../../../shared/LinkElement";
+import { createUser } from "../model/RegisterAPI";
 import styles from './Register.module.scss'
-import { Value } from "sass";
 
 type RegisterFormData = {
     username: string;
@@ -12,111 +14,103 @@ type RegisterFormData = {
 }
 
 const Register = () => {
-    const [formData, setFormData] = useState<RegisterFormData>({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-    })
 
-    const [formErrors, setFormErrors] = useState({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-    });
+    const {
+        register,
+        formState: { errors, isValid },
+        handleSubmit,
+        reset,
+        getValues,
+    } = useForm<RegisterFormData>({ mode: 'onBlur' });
 
-    const [isDataDirty, setDataDirty] = useState({
-        username: false,
-        email: false,
-        password: false,
-        confirmPassword: false,
-    })
-
-    const blurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
-        const { name } = e.target;
-        setDataDirty((prevState) => ({
-            ...prevState,
-            [name]: true,
-        }));
-    };
-
-    const validateEmail = (value: string) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(value) ? "" : "Некорректный email";
-    }
-
-    const onlyLetters = (value: string) => {
-        const errorMessage = "Допустимы только символы, цифры и буквы латинского алфавита";
-        const regex = /^[\x00-\x7F]+$/;
-        return !regex.test(value) ? errorMessage : "";
-    }
-
-    const validateConfirmPassword = (password: string, confirmPassword: string) => {
-        return password === confirmPassword ? '' : "Пароли не совпадают";
-    }
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-
-        let errorMessage = "";
-
-        switch (name) {
-            case 'username':
-                errorMessage = onlyLetters(value);
-                break;
-            case 'email':
-                errorMessage = onlyLetters(value) || validateEmail(value); // Проверка на email и обязательность
-                break;
-            case 'password':
-                errorMessage = onlyLetters(value); // Проверка на длину пароля и обязательность
-                break;
-            case 'confirmPassword':
-                errorMessage = validateConfirmPassword(formData.password, value); // Проверка на совпадение с паролем
-                break;
-        }
-
-        setFormErrors((prevErrors) => ({
-            ...prevErrors,
-            [name]: errorMessage || ''
-        }));
+    const onSubmit = (data: any) => {
+        createUser(data).then(res => { console.log(res) })
+        alert("welcome to le club buddy")
+        reset()
     }
 
     return (
-        <>
-            <label className={styles.FormLabel} htmlFor='username'>
-                Логин
-                {
-                    <input className={styles.FormInput} minLength={2} type="text" name="username" onBlur={blurHandler} onChange={handleInputChange} required></input>
-                }
-            </label>
-            {isDataDirty.username && formErrors.username && <div>{formErrors.username}</div>}
-            <label className={styles.FormLabel} htmlFor="password">
-                Пароль
-                {
-                    <input className={styles.FormInput} minLength={8} type="password" name="password" onBlur={blurHandler} onChange={handleInputChange} required></input>
-                }
-            </label>
-            {isDataDirty.password && formErrors.password && <div>{formErrors.password}</div>}
-            <label className={styles.FormLabel} htmlFor="confirmPassword">
-                Повторите пароль
-                {
-                    <input className={styles.FormInput} type="password" name="confirmPassword" onBlur={blurHandler} onChange={handleInputChange} required></input>
-                }
-            </label>
-            {isDataDirty.confirmPassword && formErrors.confirmPassword && <div>{formErrors.confirmPassword}</div>}
-            <label className={styles.FormLabel} htmlFor="email">
-                E-mail
-                {
-                    <input className={styles.FormInput} type="email" name="email" onBlur={blurHandler} onChange={handleInputChange} required></input>
-                }
-            </label>
-            {isDataDirty.email && formErrors.email && <div>{formErrors.email}</div>}
-        </>
+
+        <section className={styles.FormWrapper}>
+            <h2 className={styles.FormWrapper__title}>Регистрация</h2>
+            <form className={styles.FormWrapper__Form} onSubmit={handleSubmit(onSubmit)}>
+                <FormLabel htmlFor={"username"} labelText={"Логин"} children={
+                    <input className={styles.FormInput} type="text"   {...register(
+                        "username", {
+                        required: "Поле обязательно для заполнения",
+                        minLength: {
+                            value: 3,
+                            message: "Логин должен быть не короче 3 символов"
+                        },
+                        maxLength: {
+                            value: 20,
+                            message: "Логин должен быть не длинее 20 символов"
+                        },
+                        pattern: {
+                            value: /^[\x00-\x7F]+$/,
+                            message: "Допустимы только символы, цифры и буквы латинского алфавита"
+                        }
+                    }
+                    )} />
+                } />
+                <div className={styles.FormErrorsWrapper}>
+                    {errors.username && <p className={styles.FormErrors}>{(errors.username.message as string) || "Ошибка!"}</p>}
+                </div>
+                <FormLabel htmlFor={"password"} labelText={"Пароль"} children={
+                    <input className={styles.FormInput} type="password"
+                        {...register(
+                            "password", {
+                            required: "Поле обязательно для заполнения",
+                            minLength: {
+                                value: 6,
+                                message: "Пароль должен быть не короче 6 символов"
+                            },
+                            pattern: {
+                                value: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g,
+                                message: "Пароль должен содержать хотя бы: одну заглавную букву (A-Z), одну строчную букву (a-z), одну цифру (0-9),специальный символ (например, !@#$%^&*)."
+                            }
+                        }
+                        )} />
+                } />
+                <div className={styles.FormErrorsWrapper}>
+                    {errors.password && <p className={styles.FormErrors}>{(errors.password.message as string) || "Ошибка!"}</p>}
+                </div>
+                <FormLabel htmlFor={"confirmPassword"} labelText={"Повторите пароль"} children={
+                    <input className={styles.FormInput} type="password"
+                        {...register(
+                            "confirmPassword", {
+                            required: "Поле обязательно для заполнения",
+                            validate: value =>
+                                value === getValues("password") || "Пароли не совпадают"
+                        }
+                        )}
+                    />
+                } />
+                <div className={styles.FormErrorsWrapper}>
+                    {errors.confirmPassword && <p className={styles.FormErrors}>{(errors.confirmPassword.message as string) || "Ошибка!"}</p>}
+                </div>
+                <FormLabel htmlFor={"email"} labelText={"Email"} children={
+                    <input className={styles.FormInput} type="email"
+                        {...register(
+                            "email", {
+                            required: "Поле обязательно для заполнения",
+                            pattern: {
+                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                message: "Некорректный email"
+                            }
+                        }
+                        )}
+                    />
+                } />
+                <div className={styles.FormErrorsWrapper}>
+                    {errors.email && <p className={styles.FormErrors}>{(errors.email.message as string) || "Ошибка!"}</p>}
+                </div>
+                <div className={styles.FormWrapper__ButtonWrapper}>
+                    <Button type={"submit"} ButtonText={"Зарегистрироваться"} disabled={!isValid} />
+                    <LinkElement style={{ color: 'black' }} to={'/login'} LinkText={"Войти"} />
+                </div>
+            </form>
+        </section>
     )
 }
 
