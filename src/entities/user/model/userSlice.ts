@@ -8,7 +8,7 @@ interface User {
 }
 
 const initialState: User = {
-    username: "",
+    username: "Didsen1",
     token: "",
     isLogin: false,
 };

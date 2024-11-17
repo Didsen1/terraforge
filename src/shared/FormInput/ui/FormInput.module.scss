@@ -2,9 +2,11 @@
     padding: 10px;
     height: 24;
     margin-top: 10px;
+    color: black;
 }
 
 .FormInput:focus {
-    border-color: #6e96e3;
+    border-color: #00bcd4;
+    box-shadow: 0 0 5px rgba(110, 150, 227, 0.8);
     outline: none;
 }

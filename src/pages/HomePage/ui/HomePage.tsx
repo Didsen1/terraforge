@@ -1,15 +1,12 @@
 import React from "react";
 import Button from "../../../shared/Button";
 import discordLink from "../../../utils/constants/discordLink";
+import FormWrapper from "../../../widgets/FormWrapper";
 import styles from './HomePage.module.scss'
 
 const HomePage = () => {
     return (
-        <section className={styles.HomePage}>
-
-            <h1 className={styles.HomePage__title}>
-                Terraforge
-            </h1>
+        <FormWrapper formTitleText={'Terraforge'}>
 
             <article className={styles.HomePage__news}>
 
@@ -57,8 +54,10 @@ const HomePage = () => {
                 </div>
 
             </article>
+
             <Button ButtonText={"Скачать"} />
-        </section>
+
+        </FormWrapper>
     )
 }
 

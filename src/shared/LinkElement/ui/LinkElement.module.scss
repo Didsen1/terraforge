@@ -1,5 +1,14 @@
 .LinkElement {
+    display: inline-flex;
+    height: 100%;
+    align-items: center;
+    text-align: center;
     text-decoration: none;
-    font-size: 22px;
-    color: white;
+    font-size: var(--buttonLink-font-size);
+    padding: 0 10px;
+    color: var(--text-color);
+}
+
+.LinkElement:hover {
+    background-color: #676767;
 }

@@ -1,16 +1,31 @@
 @import 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap';
 
-* {
+:root {
     --font-family: Roboto, sans-serif;
+    --module-background-color: #424242;
+    --text-color: white;
+    --title-font-size: 72px;
+    --subtitle-font-size: 26px;
+    --button-link-font-size: 22px;
+    --h3-font-size: 22px;
+    --regular-font-size: 18px;
+    --regular-font-weight: 400;
+    --medium-font-weight: 500;
+}
+
+* {
     font-family: var(--font-family);
+    font-weight: var(--regular-font-weight);
+    font-size: var(--regular-font-size);
+    color: var(--text-color);
+    margin: 0;
 }
 
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #d7bc83;
+    background-color: #212121;
 }

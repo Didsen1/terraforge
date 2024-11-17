@@ -1,0 +1,22 @@
+.FormWrapper__Form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.FormWrapper__ButtonWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    button {
+        margin-bottom: 10px;
+    }
+
+    a {
+        align-self: center;
+        padding: 10px;
+        border-radius: 20px;
+    }
+}

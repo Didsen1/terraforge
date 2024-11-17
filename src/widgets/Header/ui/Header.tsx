@@ -22,15 +22,17 @@ const Header = () => {
     return (
         <header className={styles.Header}>
             <nav className={styles.HeaderWrapper}>
-                <LinkElement to={"/"} LinkText={"Главная"} />
+                <LinkElement to={"/"} LinkText={"Главная"} >
+
+                </LinkElement>
                 {
                     IsLogin ?
-                        <div>
-                            <Button ButtonText={`${UserName}`}></Button>
+                        <div className={styles.Header__LinkWrapper}>
+                            <LinkElement to={"/profile"} LinkText={`${UserName}`} />
                             <Button onClick={handleLogout} ButtonText={`Выйти`}></Button>
                         </div>
                         :
-                        <div>
+                        <div className={styles.Header__LinkWrapper}>
                             <LinkElement style={{ margin: "0 10px 0 0" }} to={"/login"} LinkText={"Войти"} />
                             <LinkElement to={"/register"} LinkText={"Регистрация"} />
                         </div>
